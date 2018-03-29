@@ -6,10 +6,21 @@ import Input from 'react-validation/build/input';
 import Button from 'react-validation/build/button';
 import Select from 'react-validation/build/select';
 import TextArea from 'react-validation/build/textarea';
+import Calendar from 'react-calendar';
 //import { Switch,Route } from 'react-router';
 //import Home from './components/Home'
 class Home extends Component {
-     required  (value){
+    constructor(props) {
+        super(props);
+        this.state = {customerName: '',mobileNumber:'',address:'',deliveryPerson:'',deliveryDate:new Date()};
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.submit = this.submit.bind(this);
+        this.handleMobileNumberChange = this.handleMobileNumberChange.bind(this);
+        this.handleAddressChange = this.handleAddressChange.bind(this);
+        this.handleDeliveryPersonChange = this.handleDeliveryPersonChange.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
+      } 
+    required  (value){
         if (!value.toString().trim().length) {
           // We can return string or jsx as the 'error' prop for the validated Component
           return <span className="error">Required</span>;
@@ -29,20 +40,32 @@ class Home extends Component {
           return <span className="error">The value exceeded {props.maxLength} symbols.</span>
         }
       };
-       
-       password  (value, props, components)  {
-        // NOTE: Tricky place. The 'value' argument is always current component's value.
-        // So in case we're 'changing' let's say 'password' component - we'll compare it's value with 'confirm' value.
-        // But if we're changing 'confirm' component - the condition will always be true
-        // If we need to always compare own values - replace 'value' with components.password[0].value and make some magic with error rendering.
-        if (value !== components['confirm'][0].value) { // components['password'][0].value !== components['confirm'][0].value
-          // 'confirm' - name of input
-          // components['confirm'] - array of same-name components because of checkboxes and radios
-          return <span className="error">Passwords are not equal.</span>
-        }
-      };
-      submit(){
-          console.log('submitting')
+      mobileNumber(value, props, components){
+          if(!validator.isMobilePhone(value, 'en-IN')){
+            return <span className="error">Enter a valid number</span>
+          }
+      }
+      submit(event){
+          console.log('Customer name',this.state.customerName,'Mobile',this.state.mobileNumber,'address',this.state.address,'delivery person',this.state.deliveryPerson,'delivery date',this.state.deliveryDate)
+          alert("Details submitted successfully")
+          event.preventDefault();
+      }
+      handleNameChange(event) {
+          console.log('event',event.target.value)
+        this.setState({customerName: event.target.value});
+      }
+      handleMobileNumberChange(event){
+        this.setState({mobileNumber: event.target.value});
+      }
+      handleAddressChange(event){
+        this.setState({address: event.target.value});
+      }
+      handleDeliveryPersonChange(event){
+        this.setState({deliveryPerson: event.target.value});
+      }
+      handleDateChange(){
+        this.setState({deliveryDate: this.state.deliveryDate});
+        console.log('dattt',this.state.deliveryDate)
       }
     render() {
         return (
@@ -64,13 +87,13 @@ class Home extends Component {
                         <div className="col-sm-6">
                             <label className="label-cls">
                                 Customer Name*
-                                <Input className="label-cls" placeholder="Customer Name" name='customerName' validations={[this.required]}/>
+                                <Input className="label-cls" placeholder="Customer Name" name='customerName' value={this.state.customerName} onChange={this.handleNameChange} validations={[this.required]} />
                             </label>
                         </div>
                         <div className="col-sm-6">
                             <label className="label-cls">
                                 Customer Mobile Number *
-                                <Input className="label-cls" type="number" placeholder="Customer Mobile" name='customerMobile' validations={[this.required]}/>
+                                <Input className="label-cls" type="number" placeholder="Customer Mobile" name='customerMobile' value={this.state.mobileNumber} onChange={this.handleMobileNumberChange} validations={[this.required,this.mobileNumber]}/>
                             </label>
                         </div>
                         </div>
@@ -80,11 +103,11 @@ class Home extends Component {
                         <div className="col-sm-6">
                             <label className="label-cls">
                                 Address *
-                                <TextArea className="label-cls" type='address' name='address' validations={[this.required]}/>
+                                <TextArea className="label-cls" type='address' name='address' value={this.state.address} onChange={this.handleAddressChange} validations={[this.required]}/>
                             </label>
                         </div>
                         <div className="col-sm-6">
-                        <Select className="label-cls delivery-dropdn" name='city' value='' validations={[this.required]}>
+                        <Select className="label-cls delivery-dropdn" name='city' value={this.state.deliveryPerson} onChange={this.handleDeliveryPersonChange} validations={[this.required]}>
                             <option value=''>Choose Delivery Person</option>
                             <option value='1'>Person1</option>
                             <option value='2'>Person2</option>
@@ -93,7 +116,16 @@ class Home extends Component {
                         </div>
                         </div>
                         </div>
-
+                        <div className="col-sm-6">
+                            <label className="label-cls">
+                                Select date *
+                                <Calendar
+                                    value={this.state.deliveryDate}
+                                    onChange={this.handleDateChange}
+                                    
+                                />
+                            </label>
+                        </div>
                         <div className="col-sm-6 button-cls">
                             <Button className="label-cls">Submit</Button>
                         </div>
