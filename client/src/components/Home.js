@@ -63,9 +63,9 @@ class Home extends Component {
       handleDeliveryPersonChange(event){
         this.setState({deliveryPerson: event.target.value});
       }
-      handleDateChange(){
-        this.setState({deliveryDate: this.state.deliveryDate});
-        console.log('dattt',this.state.deliveryDate)
+      handleDateChange(event){
+        this.setState({deliveryDate: event});
+        console.log('dattt',this.state.deliveryDate,'ee',event)
       }
     render() {
         return (
