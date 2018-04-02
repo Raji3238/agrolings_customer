@@ -7,19 +7,27 @@ import Button from 'react-validation/build/button';
 import Select from 'react-validation/build/select';
 import TextArea from 'react-validation/build/textarea';
 import Calendar from 'react-calendar';
+import DatePicker from 'react-date-picker';
+import Row from './Row';
+import Request from 'superagent';
 //import { Switch,Route } from 'react-router';
 //import Home from './components/Home'
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {customerName: '',mobileNumber:'',address:'',deliveryPerson:'',deliveryDate:new Date()};
+        this.state = {customerName: '',mobileNumber:'',address:'',deliveryPerson:'',deliveryDate:new Date(),products:[]};
         this.handleNameChange = this.handleNameChange.bind(this);
         this.submit = this.submit.bind(this);
         this.handleMobileNumberChange = this.handleMobileNumberChange.bind(this);
         this.handleAddressChange = this.handleAddressChange.bind(this);
         this.handleDeliveryPersonChange = this.handleDeliveryPersonChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.getData = this.getData.bind(this);
       } 
+      getData(data){
+          console.log('getData',data)
+        this.setState({childData: data});     
+   }
     required  (value){
         if (!value.toString().trim().length) {
           // We can return string or jsx as the 'error' prop for the validated Component
@@ -46,10 +54,55 @@ class Home extends Component {
           }
       }
       submit(event){
+          console.log('state value',this.state)
           console.log('Customer name',this.state.customerName,'Mobile',this.state.mobileNumber,'address',this.state.address,'delivery person',this.state.deliveryPerson,'delivery date',this.state.deliveryDate)
           alert("Details submitted successfully")
+          
+console.log('data',this.state)
+Request
+.get('/postData')
+.query(
+    {query:JSON.stringify(this.state)}
+)
+.send({
+    //_csrf: this.props._csrf,
+    // params: {
+    //     method:"GET",
+    //     query:JSON.stringify(this.state)
+    // }
+})
+.end((err, res) => {
+    if(res && res.body) {
+        console.log('end',res)
+    }
+});
+
+// this.callApi()
+// .then(res => this.setState({ response: res.express }))
+// .catch(err => console.log(err));
+        //   fetch("/postData",{
+        //         method:"GET",
+        //         qs:JSON.stringify(this.state),
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }})
+                
+        //         .then(function(res) {
+        //             console.log("ok",res.text());
+        //         }).catch(function() {
+        //             console.log("error");
+        //         });
           event.preventDefault();
       }
+      callApi = async () => {
+        console.log('callapi')
+        const response = await fetch('/postData',{params:JSON.stringify(this.state)});
+        const body = await response.json();
+    
+        if (response.status !== 200) throw Error(body.message);
+    console.log('body',body)
+        return body;
+      };
       handleNameChange(event) {
           console.log('event',event.target.value)
         this.setState({customerName: event.target.value});
@@ -66,6 +119,9 @@ class Home extends Component {
       handleDateChange(event){
         this.setState({deliveryDate: event});
         console.log('dattt',this.state.deliveryDate,'ee',event)
+      }
+      onToggleBookStatus(prod){
+        console.log('onToggleBookStatus',prod)
       }
     render() {
         return (
@@ -119,11 +175,11 @@ class Home extends Component {
                         <div className="col-sm-6">
                             <label className="label-cls">
                                 Select date *
-                                <Calendar
-                                    value={this.state.deliveryDate}
-                                    onChange={this.handleDateChange}
-                                    
-                                />
+                                <div>
+                                <DatePicker
+          onChange={this.handleDateChange}
+          value={this.state.deliveryDate}
+        /></div>
                             </label>
                         </div>
                         <div className="col-sm-6 button-cls">
@@ -132,7 +188,7 @@ class Home extends Component {
                        
                     </Form>
                     
-                    
+                    <Row sendData={this.getData}/>
                     {/* <div className="col-sm-6">
                         test1
                     </div> */}

@@ -6,5 +6,9 @@ app.use('/', express.static(`${__dirname}/client/build`));
 app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });
+app.get('/postData', (req, res) => {
+  console.log('test method',req.query)
+  res.send({ express: 'success' });
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
