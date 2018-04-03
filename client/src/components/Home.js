@@ -182,13 +182,16 @@ Request
         /></div>
                             </label>
                         </div>
+                        <div className="col-sm-12">
+                        <Row sendData={this.getData}/>
+                        </div>
                         <div className="col-sm-6 button-cls">
-                            <Button className="label-cls">Submit</Button>
+                            <Button className="label-cls btn btn-success pull-right">Submit</Button>
                         </div>
                        
                     </Form>
                     
-                    <Row sendData={this.getData}/>
+                    
                     {/* <div className="col-sm-6">
                         test1
                     </div> */}
