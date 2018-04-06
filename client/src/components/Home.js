@@ -14,8 +14,9 @@ import Request from 'superagent';
 //import Home from './components/Home'
 class Home extends Component {
     constructor(props) {
+    
         super(props);
-        this.state = {customerName: '',mobileNumber:'',address:'',deliveryPerson:'',deliveryDate:new Date(),products:[]};
+        this.state = {customerName: '',mobileNumber:'',address:'',deliveryPerson:'',deliveryDate:new Date(),productDropDown:''};
         this.handleNameChange = this.handleNameChange.bind(this);
         this.submit = this.submit.bind(this);
         this.handleMobileNumberChange = this.handleMobileNumberChange.bind(this);
@@ -27,13 +28,13 @@ class Home extends Component {
       getData(data){
           console.log('getData',data)
         this.setState({childData: data});     
-   }
-    required  (value){
-        if (!value.toString().trim().length) {
-          // We can return string or jsx as the 'error' prop for the validated Component
-          return <span className="error">Required</span>;
-        }
-      };
+      }
+      required  (value){
+            if (!value.toString().trim().length) {
+            // We can return string or jsx as the 'error' prop for the validated Component
+            return <span className="error">Required</span>;
+            }
+        };
        
        email  (value)  {
         if (!validator.isEmail(value)) {
@@ -72,8 +73,10 @@ Request
     // }
 })
 .end((err, res) => {
+    console.log('er',err)
     if(res && res.body) {
-        console.log('end',res)
+        var result = res.JSON();
+        console.log('end',result)
     }
 });
 
@@ -123,11 +126,17 @@ Request
       onToggleBookStatus(prod){
         console.log('onToggleBookStatus',prod)
       }
+      setProdDropDown(data){
+          console.log('data',data)
+          
+      }
     render() {
+       
+        
         return (
-            <div>
+            <div className="scroll-div">
              <header>
-                 <h2 className="header-class">Welcome to Theertha</h2>
+                 <h2 className="header-class">Welcome </h2>
              </header>
             <div id="content" className="container">
                 <div className="">
@@ -162,6 +171,7 @@ Request
                                 <TextArea className="label-cls" type='address' name='address' value={this.state.address} onChange={this.handleAddressChange} validations={[this.required]}/>
                             </label>
                         </div>
+                        
                         <div className="col-sm-6">
                         <Select className="label-cls delivery-dropdn" name='city' value={this.state.deliveryPerson} onChange={this.handleDeliveryPersonChange} validations={[this.required]}>
                             <option value=''>Choose Delivery Person</option>
@@ -173,7 +183,7 @@ Request
                         </div>
                         </div>
                         <div className="col-sm-6">
-                            <label className="label-cls">
+                            <label className="label-cls label-calendar">
                                 Select date *
                                 <div>
                                 <DatePicker
