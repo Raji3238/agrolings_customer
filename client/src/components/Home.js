@@ -58,43 +58,42 @@ class Home extends Component {
           console.log('state value',this.state)
           console.log('Customer name',this.state.customerName,'Mobile',this.state.mobileNumber,'address',this.state.address,'delivery person',this.state.deliveryPerson,'delivery date',this.state.deliveryDate)
           alert("Details submitted successfully")
-          
-console.log('data',this.state)
-Request
-.get('/postData')
-.query(
-    {query:JSON.stringify(this.state)}
-)
-.send({
-    //_csrf: this.props._csrf,
-    // params: {
-    //     method:"GET",
-    //     query:JSON.stringify(this.state)
-    // }
-})
-.end((err, res) => {
-    console.log('er',err)
-    if(res && res.body) {
-        var result = res.JSON();
-        console.log('end',result)
-    }
-});
+          console.log('data',this.state)
+          Request
+          .get('/postData')
+          .query(
+            {query:JSON.stringify(this.state)}
+          )
+         .send({
+            //_csrf: this.props._csrf,
+            // params: {
+            //     method:"GET",
+            //     query:JSON.stringify(this.state)
+            // }
+         })
+        .end((err, res) => {
+            console.log('er',err)
+            if(res && res.body) {
+                // var result = res.JSON();
+                console.log('end',res)
+            }
+        });
 
-// this.callApi()
-// .then(res => this.setState({ response: res.express }))
-// .catch(err => console.log(err));
-        //   fetch("/postData",{
-        //         method:"GET",
-        //         qs:JSON.stringify(this.state),
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         }})
-                
-        //         .then(function(res) {
-        //             console.log("ok",res.text());
-        //         }).catch(function() {
-        //             console.log("error");
-        //         });
+        // this.callApi()
+        // .then(res => this.setState({ response: res.express }))
+        // .catch(err => console.log(err));
+                //   fetch("/postData",{
+                //         method:"GET",
+                //         qs:JSON.stringify(this.state),
+                //         headers: {
+                //             'Content-Type': 'application/json'
+                //         }})
+                        
+                //         .then(function(res) {
+                //             console.log("ok",res.text());
+                //         }).catch(function() {
+                //             console.log("error");
+                //         });
           event.preventDefault();
       }
       callApi = async () => {
@@ -127,12 +126,9 @@ Request
         console.log('onToggleBookStatus',prod)
       }
       setProdDropDown(data){
-          console.log('data',data)
-          
+          console.log('data',data) 
       }
     render() {
-       
-        
         return (
             <div className="scroll-div">
              <header>
@@ -140,7 +136,6 @@ Request
              </header>
             <div id="content" className="container">
                 <div className="">
-                    
                     <Form onSubmit={this.submit}>
                     <div className="row">
                     <div className="col-sm-12">
@@ -171,7 +166,6 @@ Request
                                 <TextArea className="label-cls" type='address' name='address' value={this.state.address} onChange={this.handleAddressChange} validations={[this.required]}/>
                             </label>
                         </div>
-                        
                         <div className="col-sm-6">
                         <Select className="label-cls delivery-dropdn" name='city' value={this.state.deliveryPerson} onChange={this.handleDeliveryPersonChange} validations={[this.required]}>
                             <option value=''>Choose Delivery Person</option>
@@ -186,10 +180,10 @@ Request
                             <label className="label-cls label-calendar">
                                 Select date *
                                 <div>
-                                <DatePicker
-          onChange={this.handleDateChange}
-          value={this.state.deliveryDate}
-        /></div>
+                                    <DatePicker
+                                    onChange={this.handleDateChange}
+                                    value={this.state.deliveryDate}/>
+                                </div>
                             </label>
                         </div>
                         <div className="col-sm-12">
@@ -198,10 +192,7 @@ Request
                         <div className="col-sm-6 button-cls">
                             <Button className="label-cls btn btn-success pull-right">Submit</Button>
                         </div>
-                       
                     </Form>
-                    
-                    
                     {/* <div className="col-sm-6">
                         test1
                     </div> */}

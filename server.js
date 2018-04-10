@@ -27,8 +27,35 @@ app.get('/getProducts',(req,res) =>{
     })
 })
 app.get('/postData', (req, res) => {
-  console.log('test method',req.query)
-  res.send({ express: 'success' });
+  console.log('test method',req.query,'parsed',JSON.parse(req.query.query))
+  //todo replace static phone number with dynamic
+  var getCustomerQuery = 'select id,name,client_address,phone_number from client where phone_number=960034184';
+  //get client id based on phone number
+  connection.query(getCustomerQuery,function(err,customer){
+    console.log('Customer details',customer,'name',customer[0].id);
+    if(err)
+    res.send(err);
+    else{
+      //store client id in shipment tab
+      var shipmentQuery = 'insert into shipment (client_id,time_created,payment_type_id,final_price) values ('+customer[0].id+',NOW(),1,0)';
+      console.log('shipmentQuery',shipmentQuery);
+      connection.query(shipmentQuery,function(err,saveShipment){
+        console.log('shipp',err)
+        if(err) res.send(err);
+        else{
+          console.log('after insert shipment',saveShipment);
+          //get shipment id from shipment tab
+          //var getShipmentQuery = 
+          //store in shipment details
+
+          res.send({ express: 'success' });
+        }
+      })
+    }
+  })
+  
+  
+  
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
