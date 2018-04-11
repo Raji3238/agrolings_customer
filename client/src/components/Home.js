@@ -10,13 +10,14 @@ import Calendar from 'react-calendar';
 import DatePicker from 'react-date-picker';
 import Row from './Row';
 import Request from 'superagent';
+import staticValues from '../config/staticValues';
 //import { Switch,Route } from 'react-router';
 //import Home from './components/Home'
 class Home extends Component {
     constructor(props) {
     
         super(props);
-        this.state = {customerName: '',mobileNumber:'',address:'',deliveryPerson:'',deliveryDate:new Date(),productDropDown:''};
+        this.state = {customerName: '',mobileNumber:'',address:'',deliveryPerson:'',deliveryDate:new Date(),productDropDown:'',orderTakenPerson:staticValues.orderTakenPersonDetails};
         this.handleNameChange = this.handleNameChange.bind(this);
         this.submit = this.submit.bind(this);
         this.handleMobileNumberChange = this.handleMobileNumberChange.bind(this);
@@ -129,6 +130,12 @@ class Home extends Component {
           console.log('data',data) 
       }
     render() {
+        let orderTaken = this.state.orderTakenPerson;
+        console.log('orderTaken',orderTaken)
+        let optionItems = orderTaken.map((persons) =>
+                <option key={persons.id}>{persons.name}</option>
+            );
+
         return (
             <div className="scroll-div">
              <header>
@@ -169,9 +176,7 @@ class Home extends Component {
                         <div className="col-sm-6">
                         <Select className="label-cls delivery-dropdn" name='city' value={this.state.deliveryPerson} onChange={this.handleDeliveryPersonChange} validations={[this.required]}>
                             <option value=''>Choose Delivery Person</option>
-                            <option value='1'>Person1</option>
-                            <option value='2'>Person2</option>
-                            <option value='3'>Person3</option>
+                            {optionItems}
                         </Select>
                         </div>
                         </div>

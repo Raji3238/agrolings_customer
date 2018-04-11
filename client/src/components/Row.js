@@ -48,7 +48,7 @@ class Row extends Component {
         price: "",
         category: "",
         qty: 0,
-        drop:0
+        productId:0
       }
       this.state.products.push(product);
       this.setState(this.state.products);
@@ -165,7 +165,7 @@ class Row extends Component {
       return (
         <tr className="eachRow">
           <DropDown prodDropDownValue = {prodDropDown}onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-            "type": "drop",
+            "type": "productId",
             value: this.props.product.value,
             id: this.props.product.id,
             price:this.props.product.price
