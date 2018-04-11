@@ -182,7 +182,7 @@ class Home extends Component {
                         </div>
                         </div>
                         <div className="col-sm-6">
-                            <label className="label-cls label-calendar">
+                            <label className="label-cls ">
                                 Select date *
                                 <div>
                                     <DatePicker
