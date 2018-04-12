@@ -42,8 +42,12 @@ app.get('/postData', (req, res) => {
       //store client id in shipment ta
        var randomNumber = Math.floor(Math.random()*10000) + 1;
        console.log('arr',randomNumber);
-       var deliveryDate = moment(parsedData.deliveryDate).format("YYYY-MM-DD")
-       var shipmentQuery = 'insert into shipment (id,client_id,time_created,payment_type_id,final_price,order_taken_person) values ('+randomNumber+','+customer[0].id+',NOW(),1,0,"'+parsedData.deliveryPerson+'")';
+       var date = new Date(parsedData.deliveryDate);
+      
+      //date.setDate(date.getDate() + 1)
+       var deliveryDate = moment(parsedData.deliveryDate).format("YYYY-MM-DD");
+       console.log('final deliveryDate',date,'deliveryDate',deliveryDate)
+       var shipmentQuery = 'insert into shipment (id,client_id,time_created,payment_type_id,final_price,order_taken_person,delivery_date) values ('+randomNumber+','+customer[0].id+',NOW(),1,0,"'+parsedData.deliveryPerson+'","'+deliveryDate+'")';
       console.log('shipmentQuery',shipmentQuery);
       connection.query(shipmentQuery,function(err,saveShipment){
         console.log('shipp',err)
@@ -51,19 +55,23 @@ app.get('/postData', (req, res) => {
         else{
           console.log('after insert shipment',saveShipment);
           var productDetails = parsedData.childData;
-          async.timesSeries(productDetails.length,function(i,next){
-            console.log('productDetails',productDetails[i])
-            var saveShipmentDetails = 'insert into shipment_details (shipment_id,product_id,quanitity,price_per_unit,price) values('+randomNumber+','+productDetails[i].productId+','+productDetails[i].qty+',1,1)'
-            connection.query(saveShipmentDetails,function(err,shipmentDetials){
-              console.log('query',saveShipmentDetails,'saved',err)
+          if(productDetails){
+            async.timesSeries(productDetails.length,function(i,next){
+              console.log('productDetails',productDetails[i])
+              var saveShipmentDetails = 'insert into shipment_details (shipment_id,product_id,quanitity,price_per_unit,price) values('+randomNumber+','+productDetails[i].productId+','+productDetails[i].qty+',1,1)'
+              connection.query(saveShipmentDetails,function(err,shipmentDetials){
+                console.log('query',saveShipmentDetails,'saved',err)
+              })
+              next(err,'success')
             })
-            next(err,'success')
-          })
-          //get shipment id from shipment tab
-          //var getShipmentQuery = 
-          //store in shipment details
-
-          res.send({ express: 'success' });
+            //get shipment id from shipment tab
+            //var getShipmentQuery = 
+            //store in shipment details
+  
+            res.send({ express: 'success' });
+          }
+          else res.send('No product selected')
+          
         }
       })
     }

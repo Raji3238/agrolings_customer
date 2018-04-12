@@ -139,7 +139,7 @@ class Home extends Component {
         return (
             <div className="scroll-div">
              <header>
-                 <h2 className="header-class">Welcome </h2>
+                 <h2 className="header-class">Welcome to Theertha</h2>
              </header>
             <div id="content" className="container">
                 <div className="">
@@ -175,7 +175,7 @@ class Home extends Component {
                         </div>
                         <div className="col-sm-6">
                         <Select className="label-cls delivery-dropdn" name='city' value={this.state.deliveryPerson} onChange={this.handleDeliveryPersonChange} validations={[this.required]}>
-                            <option value=''>Choose Delivery Person</option>
+                            <option value=''>Choose Order Taken Person</option>
                             {optionItems}
                         </Select>
                         </div>
