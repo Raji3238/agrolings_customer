@@ -135,9 +135,7 @@ class Row extends Component {
             <thead>
               <tr>
                 <th>Product Name</th>
-                <th>Price</th>
                 <th>Quantity</th>
-                <th>category</th>
               </tr>
             </thead>
   
@@ -170,21 +168,13 @@ class Row extends Component {
             id: this.props.product.id,
             price:this.props.product.price
           }}/>
-          <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-            type: "price",
-            value: this.props.product.price,
-            id: this.props.product.id
-          }}/>
+         
           <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
             type: "qty",
             value: this.props.product.qty,
             id: this.props.product.id
           }}/>
-          <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-            type: "category",
-            value: this.props.product.category,
-            id: this.props.product.id
-          }}/>
+          
           <td className="del-cell">
             <input type="button" onClick={this.onDelEvent.bind(this)} value="X" className="del-btn"/>
           </td>

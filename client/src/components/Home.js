@@ -73,10 +73,14 @@ class Home extends Component {
             // }
          })
         .end((err, res) => {
-            console.log('er',err)
-            if(res && res.body) {
+            console.log('er',err,res)
+            if(err&&res.body.error){ 
+                alert(res.body.error)
+            }
+            if(res && res.body&&!res.body.error) {
                 // var result = res.JSON();
                 console.log('end',res)
+                //alert("Your details")
             }
         });
 
@@ -192,7 +196,7 @@ class Home extends Component {
                             </label>
                         </div>
                         <div className="col-sm-12">
-                        <Row sendData={this.getData}/>
+                        <Row sendData={this.getData}  />
                         </div>
                         <div className="col-sm-6 button-cls">
                             <Button className="label-cls btn btn-success pull-right">Submit</Button>

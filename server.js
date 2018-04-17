@@ -32,12 +32,15 @@ app.get('/postData', (req, res) => {
   console.log('test method',req.query,'parsed',JSON.parse(req.query.query))
   var parsedData = JSON.parse(req.query.query);
   //todo replace static phone number with dynamic
-  var getCustomerQuery = 'select id,name,client_address,phone_number from client where phone_number=960034184';
+  var getCustomerQuery = 'select id,name,client_address,phone_number from client where phone_number='+parsedData.mobileNumber;
   //get client id based on phone number
   connection.query(getCustomerQuery,function(err,customer){
-    console.log('Customer details',customer,'name',customer[0].id);
+    console.log('Customer details',customer);
     if(err)
     res.send(err);
+    else if(!customer.length){
+      res.status(401).send({error:"Please enter registered mobile number"});
+    }
     else{
       //store client id in shipment ta
        var randomNumber = Math.floor(Math.random()*10000) + 1;
