@@ -36,7 +36,7 @@ header {
 .header-class{
   text-align: center;
     color: #fff;
-    font-family: cursive;
+    font-family: arial;
 }
 body {
   overflow: hidden;
@@ -60,7 +60,7 @@ html, body {
 }
 .label-cls{
   width: 100%;
-  font-family: cursive;
+  font-family: arial;
  
 }
 .button-cls{
@@ -70,7 +70,7 @@ html, body {
   margin-top: 6%;
 }
 .track-head{
-  font-family: cursive;
+  font-family: arial;
 }
 .scroll-div {
   overflow-y: scroll;
