@@ -11,6 +11,8 @@ import DatePicker from 'react-date-picker';
 import Row from './Row';
 import Request from 'superagent';
 import staticValues from '../config/staticValues';
+import Success from './Success';
+import { Redirect } from 'react-router';
 //import { Switch,Route } from 'react-router';
 //import Home from './components/Home'
 class Home extends Component {
@@ -81,6 +83,7 @@ class Home extends Component {
                 // var result = res.JSON();
                 console.log('end',res)
                 //alert("Your details")
+                window.location.assign("/success");
             }
         });
 
@@ -100,6 +103,12 @@ class Home extends Component {
                 //             console.log("error");
                 //         });
           event.preventDefault();
+      }
+      loadSuccessPage(){
+          console.log('succcccc')
+        return(
+            <Success/>
+           )
       }
       callApi = async () => {
         console.log('callapi')

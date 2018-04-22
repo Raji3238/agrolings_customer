@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import { Switch,Route } from 'react-router';
 import Home from './components/Home';
+import Success from './components/Success';
 class MainApp extends Component {
     render() {
         return (
@@ -11,8 +12,8 @@ class MainApp extends Component {
                     <Route exact path="/" render={() =>
                         <Home {...this.props} />
                     }/> 
-                    <Route exact path="/test" render={() =>
-                        <Home {...this.props} />
+                    <Route exact path="/success" render={() =>
+                        <Success {...this.props} />
                     }/>  
                     {/* <Route exact path="/tiles" render={() =>
                         <TilesPage {...this.props} />
